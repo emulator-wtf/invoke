@@ -16,7 +16,7 @@ async function invoke() {
       args.push('--outputs-dir', outputsDir);
     }
 
-    exec('ew-cli', args);
+    await exec('ew-cli', args);
   } catch (e) {
     warning(`ew-cli invoke failed: ${e}`);
     setFailed(e);

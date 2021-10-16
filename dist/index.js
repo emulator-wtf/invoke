@@ -41,24 +41,30 @@ var exec_1 = require("@actions/exec");
 var EW_CLI_URL = "https://maven.emulator.wtf/releases/ew-cli";
 function invoke() {
     return __awaiter(this, void 0, void 0, function () {
-        var token, appApk, testApk, outputsDir, args;
+        var token, appApk, testApk, outputsDir, args, e_1;
         return __generator(this, function (_a) {
-            try {
-                token = (0, core_1.getInput)('api-token', { required: true });
-                appApk = (0, core_1.getInput)('app-apk', { required: true });
-                testApk = (0, core_1.getInput)('test-apk', { required: true });
-                outputsDir = (0, core_1.getInput)('outputs-dir');
-                args = ['--app', appApk, '--test', testApk];
-                if (outputsDir) {
-                    args.push('--outputs-dir', outputsDir);
-                }
-                (0, exec_1.exec)('ew-cli', args);
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    token = (0, core_1.getInput)('api-token', { required: true });
+                    appApk = (0, core_1.getInput)('app-apk', { required: true });
+                    testApk = (0, core_1.getInput)('test-apk', { required: true });
+                    outputsDir = (0, core_1.getInput)('outputs-dir');
+                    args = ['--app', appApk, '--test', testApk];
+                    if (outputsDir) {
+                        args.push('--outputs-dir', outputsDir);
+                    }
+                    return [4, (0, exec_1.exec)('ew-cli', args)];
+                case 1:
+                    _a.sent();
+                    return [3, 3];
+                case 2:
+                    e_1 = _a.sent();
+                    (0, core_1.warning)("ew-cli invoke failed: " + e_1);
+                    (0, core_1.setFailed)(e_1);
+                    return [3, 3];
+                case 3: return [2];
             }
-            catch (e) {
-                (0, core_1.warning)("ew-cli invoke failed: " + e);
-                (0, core_1.setFailed)(e);
-            }
-            return [2];
         });
     });
 }
