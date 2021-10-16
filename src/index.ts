@@ -9,9 +9,9 @@ async function invoke() {
     const outputsDir = getInput('outputs-dir');
 
     const devices = getMultilineInput('devices');
-    const useOrchestrator = getBooleanInput('use-orchestrator');
-    const clearPackageData = getBooleanInput('clear-package-data');
-    const withCoverage = getBooleanInput('with-coverage');
+    const useOrchestrator = getInput('use-orchestrator') && getBooleanInput('use-orchestrator');
+    const clearPackageData = getInput('clear-package-data') && getBooleanInput('clear-package-data');
+    const withCoverage = getInput('with-coverage') && getBooleanInput('with-coverage');
 
     const additionalApks = getMultilineInput('additional-apks');
     const environmentVariables = getMultilineInput('environment-variables');

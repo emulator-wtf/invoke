@@ -50,9 +50,9 @@ function invoke() {
                     testApk = (0, core_1.getInput)('test-apk', { required: true });
                     outputsDir = (0, core_1.getInput)('outputs-dir');
                     devices = (0, core_1.getMultilineInput)('devices');
-                    useOrchestrator = (0, core_1.getBooleanInput)('use-orchestrator');
-                    clearPackageData = (0, core_1.getBooleanInput)('clear-package-data');
-                    withCoverage = (0, core_1.getBooleanInput)('with-coverage');
+                    useOrchestrator = (0, core_1.getInput)('use-orchestrator') && (0, core_1.getBooleanInput)('use-orchestrator');
+                    clearPackageData = (0, core_1.getInput)('clear-package-data') && (0, core_1.getBooleanInput)('clear-package-data');
+                    withCoverage = (0, core_1.getInput)('with-coverage') && (0, core_1.getBooleanInput)('with-coverage');
                     additionalApks = (0, core_1.getMultilineInput)('additional-apks');
                     environmentVariables = (0, core_1.getMultilineInput)('environment-variables');
                     numShards = (0, core_1.getInput)('num-uniform-shards');
