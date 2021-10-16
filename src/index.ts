@@ -8,17 +8,17 @@ async function invoke() {
     const testApk = getInput('test-apk', { required: true });
     const outputsDir = getInput('outputs-dir');
 
-    const devices = getMultilineInput('devices');
+    const devices = getMultilineInput('devices').filter(x => x.length > 0);
     const useOrchestrator = getInput('use-orchestrator') && getBooleanInput('use-orchestrator');
     const clearPackageData = getInput('clear-package-data') && getBooleanInput('clear-package-data');
     const withCoverage = getInput('with-coverage') && getBooleanInput('with-coverage');
 
-    const additionalApks = getMultilineInput('additional-apks');
-    const environmentVariables = getMultilineInput('environment-variables');
+    const additionalApks = getMultilineInput('additional-apks').filter(x => x.length > 0);
+    const environmentVariables = getMultilineInput('environment-variables').filter(x => x.length > 0);
     
     const numShards = getInput('num-uniform-shards');
 
-    const dirsToPull = getMultilineInput('directories-to-pull');
+    const dirsToPull = getMultilineInput('directories-to-pull').filter(x => x.length > 0);
 
     let args = ['--token', token, '--app', appApk, '--test', testApk];
 
@@ -44,12 +44,11 @@ async function invoke() {
       args.push('--with-coverage');
     }
 
-    if (additionalApks) {
+    if (additionalApks.length > 0) {
       args.push('--additional-apks', additionalApks.join(','));
     }
 
-    // TODO(madis): this format sucks, support repeats here in CLI?
-    if (environmentVariables) {
+    if (environmentVariables.length > 0) {
       args.push('--environment-variables', environmentVariables.join(','));
     }
 
@@ -57,7 +56,7 @@ async function invoke() {
       args.push('--num-uniform-shards', numShards);
     }
 
-    if (dirsToPull) {
+    if (dirsToPull.length > 0) {
       args.push('--directories-to-pull', dirsToPull.join(','));
     }
 

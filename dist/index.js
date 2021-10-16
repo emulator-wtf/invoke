@@ -49,14 +49,14 @@ function invoke() {
                     appApk = (0, core_1.getInput)('app-apk', { required: true });
                     testApk = (0, core_1.getInput)('test-apk', { required: true });
                     outputsDir = (0, core_1.getInput)('outputs-dir');
-                    devices = (0, core_1.getMultilineInput)('devices');
+                    devices = (0, core_1.getMultilineInput)('devices').filter(function (x) { return x.length > 0; });
                     useOrchestrator = (0, core_1.getInput)('use-orchestrator') && (0, core_1.getBooleanInput)('use-orchestrator');
                     clearPackageData = (0, core_1.getInput)('clear-package-data') && (0, core_1.getBooleanInput)('clear-package-data');
                     withCoverage = (0, core_1.getInput)('with-coverage') && (0, core_1.getBooleanInput)('with-coverage');
-                    additionalApks = (0, core_1.getMultilineInput)('additional-apks');
-                    environmentVariables = (0, core_1.getMultilineInput)('environment-variables');
+                    additionalApks = (0, core_1.getMultilineInput)('additional-apks').filter(function (x) { return x.length > 0; });
+                    environmentVariables = (0, core_1.getMultilineInput)('environment-variables').filter(function (x) { return x.length > 0; });
                     numShards = (0, core_1.getInput)('num-uniform-shards');
-                    dirsToPull = (0, core_1.getMultilineInput)('directories-to-pull');
+                    dirsToPull = (0, core_1.getMultilineInput)('directories-to-pull').filter(function (x) { return x.length > 0; });
                     args_1 = ['--token', token, '--app', appApk, '--test', testApk];
                     if (outputsDir) {
                         args_1.push('--outputs-dir', outputsDir);
@@ -75,16 +75,16 @@ function invoke() {
                     if (withCoverage) {
                         args_1.push('--with-coverage');
                     }
-                    if (additionalApks) {
+                    if (additionalApks.length > 0) {
                         args_1.push('--additional-apks', additionalApks.join(','));
                     }
-                    if (environmentVariables) {
+                    if (environmentVariables.length > 0) {
                         args_1.push('--environment-variables', environmentVariables.join(','));
                     }
                     if (numShards) {
                         args_1.push('--num-uniform-shards', numShards);
                     }
-                    if (dirsToPull) {
+                    if (dirsToPull.length > 0) {
                         args_1.push('--directories-to-pull', dirsToPull.join(','));
                     }
                     return [4, (0, exec_1.exec)('ew-cli', args_1)];
