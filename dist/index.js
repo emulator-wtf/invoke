@@ -50,7 +50,7 @@ function invoke() {
                     appApk = (0, core_1.getInput)('app-apk', { required: true });
                     testApk = (0, core_1.getInput)('test-apk', { required: true });
                     outputsDir = (0, core_1.getInput)('outputs-dir');
-                    args = ['--app', appApk, '--test', testApk];
+                    args = ['--token', token, '--app', appApk, '--test', testApk];
                     if (outputsDir) {
                         args.push('--outputs-dir', outputsDir);
                     }

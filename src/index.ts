@@ -10,7 +10,7 @@ async function invoke() {
     const testApk = getInput('test-apk', { required: true });
     const outputsDir = getInput('outputs-dir');
 
-    let args = ['--app', appApk, '--test', testApk];
+    let args = ['--token', token, '--app', appApk, '--test', testApk];
 
     if (outputsDir) {
       args.push('--outputs-dir', outputsDir);
