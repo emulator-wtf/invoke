@@ -1,0 +1,21 @@
+name: invoke
+description: Invoke the ew-cli command to run Android instrumentation tests
+inputs:
+  api-token:
+    description: 'Api token for emulator.wtf'
+    required: true
+  app-apk:
+    description: 'Application apk file'
+    required: true
+  test-apk:
+    description: 'Test apk file'
+    required: true
+  outputs-dir:
+    description: 'Location to store test outputs in'
+    required: false
+branding:
+  color: orange
+  icon: smartphone
+runs:
+  using: node12
+  main: dist/index.js
