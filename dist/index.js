@@ -38,10 +38,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var core_1 = require("@actions/core");
 var exec_1 = require("@actions/exec");
-var EW_CLI_URL = "https://maven.emulator.wtf/releases/ew-cli";
 function invoke() {
     return __awaiter(this, void 0, void 0, function () {
-        var token, appApk, testApk, outputsDir, args, e_1;
+        var token, appApk, testApk, outputsDir, devices, useOrchestrator, clearPackageData, withCoverage, additionalApks, environmentVariables, numShards, dirsToPull, args_1, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -50,11 +49,45 @@ function invoke() {
                     appApk = (0, core_1.getInput)('app-apk', { required: true });
                     testApk = (0, core_1.getInput)('test-apk', { required: true });
                     outputsDir = (0, core_1.getInput)('outputs-dir');
-                    args = ['--token', token, '--app', appApk, '--test', testApk];
+                    devices = (0, core_1.getMultilineInput)('devices');
+                    useOrchestrator = (0, core_1.getBooleanInput)('use-orchestrator');
+                    clearPackageData = (0, core_1.getBooleanInput)('clear-package-data');
+                    withCoverage = (0, core_1.getBooleanInput)('with-coverage');
+                    additionalApks = (0, core_1.getMultilineInput)('additional-apks');
+                    environmentVariables = (0, core_1.getMultilineInput)('environment-variables');
+                    numShards = (0, core_1.getInput)('num-uniform-shards');
+                    dirsToPull = (0, core_1.getMultilineInput)('directories-to-pull');
+                    args_1 = ['--token', token, '--app', appApk, '--test', testApk];
                     if (outputsDir) {
-                        args.push('--outputs-dir', outputsDir);
+                        args_1.push('--outputs-dir', outputsDir);
                     }
-                    return [4, (0, exec_1.exec)('ew-cli', args)];
+                    if (devices) {
+                        devices.forEach(function (device) {
+                            args_1.push('--device', device);
+                        });
+                    }
+                    if (useOrchestrator) {
+                        args_1.push('--use-orchestrator');
+                    }
+                    if (clearPackageData) {
+                        args_1.push('--clearpackage-data');
+                    }
+                    if (withCoverage) {
+                        args_1.push('--with-coverage');
+                    }
+                    if (additionalApks) {
+                        args_1.push('--additional-apks', additionalApks.join(','));
+                    }
+                    if (environmentVariables) {
+                        args_1.push('--environment-variables', environmentVariables.join(','));
+                    }
+                    if (numShards) {
+                        args_1.push('--num-uniform-shards', numShards);
+                    }
+                    if (dirsToPull) {
+                        args_1.push('--directories-to-pull', dirsToPull.join(','));
+                    }
+                    return [4, (0, exec_1.exec)('ew-cli', args_1)];
                 case 1:
                     _a.sent();
                     return [3, 3];
