@@ -16,7 +16,7 @@ async function invoke() {
       args.push('--outputs-dir', outputsDir);
     }
 
-    exec('ew-cli', args, { env: { EW_API_TOKEN: token } });
+    exec('ew-cli', args);
   } catch (e) {
     warning(`ew-cli invoke failed: ${e}`);
     setFailed(e);

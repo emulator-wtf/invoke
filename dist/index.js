@@ -52,7 +52,7 @@ function invoke() {
                 if (outputsDir) {
                     args.push('--outputs-dir', outputsDir);
                 }
-                (0, exec_1.exec)('ew-cli', args, { env: { EW_API_TOKEN: token } });
+                (0, exec_1.exec)('ew-cli', args);
             }
             catch (e) {
                 (0, core_1.warning)("ew-cli invoke failed: " + e);
