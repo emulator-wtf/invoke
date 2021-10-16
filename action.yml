@@ -13,6 +13,30 @@ inputs:
   outputs-dir:
     description: 'Location to store test outputs in'
     required: false
+  devices:
+    description: 'Device configurations to use, in the form of model=X,version=Y per line'
+    required: false
+  use-orchestrator:
+    description: 'Set to true to use the Android Test Orchestrator'
+    required: false
+  clear-package-data:
+    description: 'Set to true to clear app data between every test (only works with orchestrator)'
+    required: false
+  with-coverage:
+    description: 'Set to true to collect coverage files and save them to <outputs-dir>'
+    required: false
+  additional-apks:
+    description: 'Additional apks to install, one per line'
+    required: false
+  environment-variables:
+    description: 'Environment variables to pass to AndroidJUnitTestRunner, one per line in the form of key=value'
+    required: false
+  num-uniform-shards:
+    description: 'Set to a number larger than 1 to randomly split your tests into multiple shards.'
+    required: false
+  directories-to-pull:
+    description: 'Directories to pull from device and store in <outputs-dir>, one per line'
+    required: false
 branding:
   color: orange
   icon: smartphone
