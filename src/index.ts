@@ -4,8 +4,8 @@ import { exec } from '@actions/exec';
 async function invoke() {
   try {
     const token = getInput('api-token', { required: true });
-    const appApk = getInput('app-apk', { required: true });
-    const testApk = getInput('test-apk', { required: true });
+    const appApk = getInput('app', { required: true });
+    const testApk = getInput('test', { required: true });
     const outputsDir = getInput('outputs-dir');
 
     const devices = getMultilineInput('devices').filter(x => x.length > 0);

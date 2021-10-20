@@ -4,10 +4,10 @@ inputs:
   api-token:
     description: 'Api token for emulator.wtf'
     required: true
-  app-apk:
+  app:
     description: 'Application apk file'
     required: true
-  test-apk:
+  test:
     description: 'Test apk file'
     required: true
   outputs-dir:

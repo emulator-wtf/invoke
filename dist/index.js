@@ -46,8 +46,8 @@ function invoke() {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     token = (0, core_1.getInput)('api-token', { required: true });
-                    appApk = (0, core_1.getInput)('app-apk', { required: true });
-                    testApk = (0, core_1.getInput)('test-apk', { required: true });
+                    appApk = (0, core_1.getInput)('app', { required: true });
+                    testApk = (0, core_1.getInput)('test', { required: true });
                     outputsDir = (0, core_1.getInput)('outputs-dir');
                     devices = (0, core_1.getMultilineInput)('devices').filter(function (x) { return x.length > 0; });
                     useOrchestrator = (0, core_1.getInput)('use-orchestrator') && (0, core_1.getBooleanInput)('use-orchestrator');
