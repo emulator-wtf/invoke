@@ -40,7 +40,7 @@ var core_1 = require("@actions/core");
 var exec_1 = require("@actions/exec");
 function invoke() {
     return __awaiter(this, void 0, void 0, function () {
-        var token, appApk, testApk, outputsDir, devices, useOrchestrator, clearPackageData, withCoverage, additionalApks, environmentVariables, numShards, dirsToPull, args_1, e_1;
+        var token, appApk, testApk, outputsDir, devices, useOrchestrator, clearPackageData, withCoverage, additionalApks, environmentVariables, numUniformShards, numShards, dirsToPull, args_1, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -55,7 +55,8 @@ function invoke() {
                     withCoverage = (0, core_1.getInput)('with-coverage') && (0, core_1.getBooleanInput)('with-coverage');
                     additionalApks = (0, core_1.getMultilineInput)('additional-apks').filter(function (x) { return x.length > 0; });
                     environmentVariables = (0, core_1.getMultilineInput)('environment-variables').filter(function (x) { return x.length > 0; });
-                    numShards = (0, core_1.getInput)('num-uniform-shards');
+                    numUniformShards = (0, core_1.getInput)('num-uniform-shards');
+                    numShards = (0, core_1.getInput)('num-shards');
                     dirsToPull = (0, core_1.getMultilineInput)('directories-to-pull').filter(function (x) { return x.length > 0; });
                     args_1 = ['--token', token, '--app', appApk, '--test', testApk];
                     if (outputsDir) {
@@ -82,7 +83,10 @@ function invoke() {
                         args_1.push('--environment-variables', environmentVariables.join(','));
                     }
                     if (numShards) {
-                        args_1.push('--num-uniform-shards', numShards);
+                        args_1.push('--num-shards', numShards);
+                    }
+                    else if (numUniformShards) {
+                        args_1.push('--num-uniform-shards', numUniformShards);
                     }
                     if (dirsToPull.length > 0) {
                         args_1.push('--directories-to-pull', dirsToPull.join(','));

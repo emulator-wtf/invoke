@@ -16,7 +16,8 @@ async function invoke() {
     const additionalApks = getMultilineInput('additional-apks').filter(x => x.length > 0);
     const environmentVariables = getMultilineInput('environment-variables').filter(x => x.length > 0);
     
-    const numShards = getInput('num-uniform-shards');
+    const numUniformShards = getInput('num-uniform-shards');
+    const numShards = getInput('num-shards');
 
     const dirsToPull = getMultilineInput('directories-to-pull').filter(x => x.length > 0);
 
@@ -53,7 +54,9 @@ async function invoke() {
     }
 
     if (numShards) {
-      args.push('--num-uniform-shards', numShards);
+      args.push('--num-shards', numShards);
+    } else if (numUniformShards) {
+      args.push('--num-uniform-shards', numUniformShards);
     }
 
     if (dirsToPull.length > 0) {
