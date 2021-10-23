@@ -38,7 +38,7 @@ async function invoke() {
     }
 
     if (clearPackageData) {
-      args.push('--clearpackage-data');
+      args.push('--clear-package-data');
     }
 
     if (withCoverage) {
