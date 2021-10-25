@@ -71,7 +71,7 @@ function invoke() {
                         args_1.push('--use-orchestrator');
                     }
                     if (clearPackageData) {
-                        args_1.push('--clearpackage-data');
+                        args_1.push('--clear-package-data');
                     }
                     if (withCoverage) {
                         args_1.push('--with-coverage');
