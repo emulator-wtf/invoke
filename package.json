@@ -1,6 +1,6 @@
 {
   "name": "invoke",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Github action to invoke instrumented Android tests with emulator.wtf",
   "scripts": {
     "build": "rimraf dist && tsc"
@@ -12,7 +12,7 @@
     "@actions/exec": "^1.1.0"
   },
   "devDependencies": {
-    "@types/node": "^12.12.6",
+    "@types/node": "^16.16.0",
     "typescript": "^4.4.4",
     "rimraf": "^3.0.2"
   }
