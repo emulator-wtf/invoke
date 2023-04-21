@@ -40,16 +40,19 @@ var core_1 = require("@actions/core");
 var exec_1 = require("@actions/exec");
 function invoke() {
     return __awaiter(this, void 0, void 0, function () {
-        var token, appApk, testApk, outputsDir, devices, useOrchestrator, clearPackageData, withCoverage, additionalApks, environmentVariables, numUniformShards, numShards, dirsToPull, args_1, e_1;
+        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, devices, timeout, useOrchestrator, clearPackageData, withCoverage, additionalApks, environmentVariables, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, fileCache, fileCacheTtl, testCache, args_1, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     token = (0, core_1.getInput)('api-token', { required: true });
-                    appApk = (0, core_1.getInput)('app', { required: true });
-                    testApk = (0, core_1.getInput)('test', { required: true });
+                    appApk = (0, core_1.getInput)('app');
+                    testApk = (0, core_1.getInput)('test');
+                    libraryTestApk = (0, core_1.getInput)('library-test');
                     outputsDir = (0, core_1.getInput)('outputs-dir');
+                    outputs = (0, core_1.getInput)('outputs');
                     devices = (0, core_1.getMultilineInput)('devices').filter(function (x) { return x.length > 0; });
+                    timeout = (0, core_1.getInput)('timeout');
                     useOrchestrator = (0, core_1.getInput)('use-orchestrator') && (0, core_1.getBooleanInput)('use-orchestrator');
                     clearPackageData = (0, core_1.getInput)('clear-package-data') && (0, core_1.getBooleanInput)('clear-package-data');
                     withCoverage = (0, core_1.getInput)('with-coverage') && (0, core_1.getBooleanInput)('with-coverage');
@@ -57,15 +60,48 @@ function invoke() {
                     environmentVariables = (0, core_1.getMultilineInput)('environment-variables').filter(function (x) { return x.length > 0; });
                     numUniformShards = (0, core_1.getInput)('num-uniform-shards');
                     numShards = (0, core_1.getInput)('num-shards');
+                    numBalancedShards = (0, core_1.getInput)('num-balanced-shards');
                     dirsToPull = (0, core_1.getMultilineInput)('directories-to-pull').filter(function (x) { return x.length > 0; });
-                    args_1 = ['--token', token, '--app', appApk, '--test', testApk];
+                    sideEffects = (0, core_1.getInput)('side-effects') && (0, core_1.getBooleanInput)('side-effects');
+                    numFlakyTestAttempts = (0, core_1.getInput)('num-flaky-test-attempts');
+                    fileCache = (0, core_1.getInput)('file-cache') ? (0, core_1.getBooleanInput)('file-cache') : true;
+                    fileCacheTtl = (0, core_1.getInput)('file-cache-ttl');
+                    testCache = (0, core_1.getInput)('test-cache') ? (0, core_1.getBooleanInput)('test-cache') : true;
+                    args_1 = ['--token', token];
+                    if (libraryTestApk) {
+                        if (appApk || testApk) {
+                            (0, core_1.warning)('library-test should be used without app and test');
+                            (0, core_1.setFailed)('library-test should be used without app and test');
+                            return [2];
+                        }
+                        args_1.push('--library-test', libraryTestApk);
+                    }
+                    else if (!appApk) {
+                        (0, core_1.warning)('app must be specified');
+                        (0, core_1.setFailed)('app must be specified');
+                        return [2];
+                    }
+                    else if (!testApk) {
+                        (0, core_1.warning)('test must be specified');
+                        (0, core_1.setFailed)('test must be specified');
+                        return [2];
+                    }
+                    else {
+                        args_1.push('--app', appApk, '--test', testApk);
+                    }
                     if (outputsDir) {
                         args_1.push('--outputs-dir', outputsDir);
+                    }
+                    if (outputs) {
+                        args_1.push('--outputs', outputs);
                     }
                     if (devices) {
                         devices.forEach(function (device) {
                             args_1.push('--device', device);
                         });
+                    }
+                    if (timeout) {
+                        args_1.push('--timeout', timeout);
                     }
                     if (useOrchestrator) {
                         args_1.push('--use-orchestrator');
@@ -88,8 +124,26 @@ function invoke() {
                     else if (numUniformShards) {
                         args_1.push('--num-uniform-shards', numUniformShards);
                     }
+                    else if (numBalancedShards) {
+                        args_1.push('--num-balanced-shards', numBalancedShards);
+                    }
                     if (dirsToPull.length > 0) {
                         args_1.push('--directories-to-pull', dirsToPull.join(','));
+                    }
+                    if (sideEffects) {
+                        args_1.push('--side-effects');
+                    }
+                    if (numFlakyTestAttempts) {
+                        args_1.push('--num-flaky-test-attempts', numFlakyTestAttempts);
+                    }
+                    if (!fileCache) {
+                        args_1.push('--no-file-cache');
+                    }
+                    if (fileCacheTtl) {
+                        args_1.push('--file-cache-ttl', fileCacheTtl);
+                    }
+                    if (!testCache) {
+                        args_1.push('--no-test-cache');
                     }
                     return [4, (0, exec_1.exec)('ew-cli', args_1)];
                 case 1:
