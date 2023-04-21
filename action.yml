@@ -19,6 +19,9 @@ inputs:
   outputs:
     description: "Comma-separated list to specify what to download to output-dir. Defaults to merged_results_xml,coverage,pulled_dirs"
     required: false
+  record-video:
+    description: 'Set to true to record video of the test run'
+    required: false
   devices:
     description: 'Device configurations to use, in the form of model=X,version=Y per line'
     required: false
