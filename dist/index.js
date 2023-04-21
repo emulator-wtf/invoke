@@ -40,7 +40,7 @@ var core_1 = require("@actions/core");
 var exec_1 = require("@actions/exec");
 function invoke() {
     return __awaiter(this, void 0, void 0, function () {
-        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, devices, timeout, useOrchestrator, clearPackageData, withCoverage, additionalApks, environmentVariables, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, fileCache, fileCacheTtl, testCache, args_1, e_1;
+        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, clearPackageData, withCoverage, additionalApks, environmentVariables, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, fileCache, fileCacheTtl, testCache, args_1, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -51,6 +51,7 @@ function invoke() {
                     libraryTestApk = (0, core_1.getInput)('library-test');
                     outputsDir = (0, core_1.getInput)('outputs-dir');
                     outputs = (0, core_1.getInput)('outputs');
+                    recordVideo = (0, core_1.getInput)('record-video') && (0, core_1.getBooleanInput)('record-video');
                     devices = (0, core_1.getMultilineInput)('devices').filter(function (x) { return x.length > 0; });
                     timeout = (0, core_1.getInput)('timeout');
                     useOrchestrator = (0, core_1.getInput)('use-orchestrator') && (0, core_1.getBooleanInput)('use-orchestrator');
@@ -94,6 +95,9 @@ function invoke() {
                     }
                     if (outputs) {
                         args_1.push('--outputs', outputs);
+                    }
+                    if (recordVideo) {
+                        args_1.push('--record-video');
                     }
                     if (devices) {
                         devices.forEach(function (device) {
