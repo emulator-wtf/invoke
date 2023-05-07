@@ -70,6 +70,9 @@ inputs:
   test-cache:
     description: "Set to false to disable remote test cache - tests will always re-run, even if they were run before"
     required: false
+  async:
+    description: "Run the test asynchronously, without waiting for the results. This shines when used together with GitHub integration."
+    required: false
 branding:
   color: orange
   icon: smartphone

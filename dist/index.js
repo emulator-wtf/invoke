@@ -40,7 +40,7 @@ var core_1 = require("@actions/core");
 var exec_1 = require("@actions/exec");
 function invoke() {
     return __awaiter(this, void 0, void 0, function () {
-        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, clearPackageData, withCoverage, additionalApks, environmentVariables, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, fileCache, fileCacheTtl, testCache, args_1, e_1;
+        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, clearPackageData, withCoverage, additionalApks, environmentVariables, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, fileCache, fileCacheTtl, testCache, async, args_1, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -68,6 +68,7 @@ function invoke() {
                     fileCache = (0, core_1.getInput)('file-cache') ? (0, core_1.getBooleanInput)('file-cache') : true;
                     fileCacheTtl = (0, core_1.getInput)('file-cache-ttl');
                     testCache = (0, core_1.getInput)('test-cache') ? (0, core_1.getBooleanInput)('test-cache') : true;
+                    async = (0, core_1.getInput)('async') && (0, core_1.getBooleanInput)('async');
                     args_1 = ['--token', token];
                     if (libraryTestApk) {
                         if (appApk || testApk) {
@@ -148,6 +149,9 @@ function invoke() {
                     }
                     if (!testCache) {
                         args_1.push('--no-test-cache');
+                    }
+                    if (async) {
+                        args_1.push('--async');
                     }
                     return [4, (0, exec_1.exec)('ew-cli', args_1)];
                 case 1:

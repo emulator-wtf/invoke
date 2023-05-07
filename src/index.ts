@@ -33,6 +33,8 @@ async function invoke() {
     const fileCacheTtl = getInput('file-cache-ttl');
     const testCache = getInput('test-cache') ? getBooleanInput('test-cache') : true;
 
+    const async = getInput('async') && getBooleanInput('async');
+
     const args = ['--token', token];
 
     if (libraryTestApk) {
@@ -126,6 +128,10 @@ async function invoke() {
 
     if (!testCache) {
       args.push('--no-test-cache');
+    }
+
+    if (async) {
+      args.push('--async');
     }
 
     await exec('ew-cli', args);
