@@ -28,6 +28,9 @@ inputs:
   timeout:
     description: 'Max time until this test run is cancelled, expressed by a number followed by an unit (h, m or s), with the maximum value being 3h and minimum value being 60s (default: 15m)'
     required: false
+  test-targets:
+    description: 'Test targets to run, one operator-target per line, e.g. class foo.bar.Foobar'
+    required: false
   use-orchestrator:
     description: 'Set to true to use the Android Test Orchestrator'
     required: false
@@ -72,6 +75,9 @@ inputs:
     required: false
   async:
     description: "Run the test asynchronously, without waiting for the results. This shines when used together with GitHub integration."
+    required: false
+  display-name:
+    description: "Display name for the test run, this is used to identify the test run in the GitHub integration."
     required: false
 branding:
   color: orange

@@ -40,7 +40,7 @@ var core_1 = require("@actions/core");
 var exec_1 = require("@actions/exec");
 function invoke() {
     return __awaiter(this, void 0, void 0, function () {
-        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, clearPackageData, withCoverage, additionalApks, environmentVariables, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, fileCache, fileCacheTtl, testCache, async, args_1, e_1;
+        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, clearPackageData, withCoverage, testTargets, additionalApks, environmentVariables, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, fileCache, fileCacheTtl, testCache, async, displayName, args_1, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -57,6 +57,7 @@ function invoke() {
                     useOrchestrator = (0, core_1.getInput)('use-orchestrator') && (0, core_1.getBooleanInput)('use-orchestrator');
                     clearPackageData = (0, core_1.getInput)('clear-package-data') && (0, core_1.getBooleanInput)('clear-package-data');
                     withCoverage = (0, core_1.getInput)('with-coverage') && (0, core_1.getBooleanInput)('with-coverage');
+                    testTargets = (0, core_1.getMultilineInput)('test-targets').map(function (x) { return x.trim(); }).filter(function (x) { return x.length > 0; });
                     additionalApks = (0, core_1.getMultilineInput)('additional-apks').filter(function (x) { return x.length > 0; });
                     environmentVariables = (0, core_1.getMultilineInput)('environment-variables').filter(function (x) { return x.length > 0; });
                     numUniformShards = (0, core_1.getInput)('num-uniform-shards');
@@ -69,6 +70,7 @@ function invoke() {
                     fileCacheTtl = (0, core_1.getInput)('file-cache-ttl');
                     testCache = (0, core_1.getInput)('test-cache') ? (0, core_1.getBooleanInput)('test-cache') : true;
                     async = (0, core_1.getInput)('async') && (0, core_1.getBooleanInput)('async');
+                    displayName = (0, core_1.getInput)('display-name');
                     args_1 = ['--token', token];
                     if (libraryTestApk) {
                         if (appApk || testApk) {
@@ -107,6 +109,12 @@ function invoke() {
                     }
                     if (timeout) {
                         args_1.push('--timeout', timeout);
+                    }
+                    if (testTargets) {
+                        args_1.push('--test-targets', testTargets.join(' '));
+                    }
+                    if (displayName) {
+                        args_1.push('--display-name', displayName);
                     }
                     if (useOrchestrator) {
                         args_1.push('--use-orchestrator');

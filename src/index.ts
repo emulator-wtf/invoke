@@ -16,6 +16,7 @@ async function invoke() {
     const useOrchestrator = getInput('use-orchestrator') && getBooleanInput('use-orchestrator');
     const clearPackageData = getInput('clear-package-data') && getBooleanInput('clear-package-data');
     const withCoverage = getInput('with-coverage') && getBooleanInput('with-coverage');
+    const testTargets = getMultilineInput('test-targets').map(x => x.trim()).filter(x => x.length > 0);
 
     const additionalApks = getMultilineInput('additional-apks').filter(x => x.length > 0);
     const environmentVariables = getMultilineInput('environment-variables').filter(x => x.length > 0);
@@ -34,6 +35,8 @@ async function invoke() {
     const testCache = getInput('test-cache') ? getBooleanInput('test-cache') : true;
 
     const async = getInput('async') && getBooleanInput('async');
+
+    const displayName = getInput('display-name');
 
     const args = ['--token', token];
 
@@ -76,6 +79,14 @@ async function invoke() {
 
     if (timeout) {
       args.push('--timeout', timeout);
+    }
+
+    if (testTargets) {
+      args.push('--test-targets', testTargets.join(' '));
+    }
+
+    if (displayName) {
+      args.push('--display-name', displayName);
     }
 
     if (useOrchestrator) {
