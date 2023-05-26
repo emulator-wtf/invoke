@@ -145,6 +145,8 @@ async function invoke() {
       args.push('--async');
     }
 
+    args.push('--integration', 'github-action 0.9.3')
+
     await exec('ew-cli', args);
   } catch (e) {
     warning(`ew-cli invoke failed: ${e}`);
