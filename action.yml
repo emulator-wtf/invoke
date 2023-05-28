@@ -79,6 +79,18 @@ inputs:
   display-name:
     description: "Display name for the test run, this is used to identify the test run in the GitHub integration."
     required: false
+  proxy-host:
+    description: "Configure a proxy host to use for all requests when making emulator.wtf API calls."
+    required: false
+  proxy-port:
+    description: "Configure a proxy port to use for all requests when making emulator.wtf API calls."
+    required: false
+  proxy-user:
+    description: "Set the proxy user to use for authentication."
+    required: false
+  proxy-password:
+    description: "Set the proxy password to use for authentication."
+    required: false
 branding:
   color: orange
   icon: smartphone

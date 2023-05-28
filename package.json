@@ -1,6 +1,6 @@
 {
   "name": "invoke",
-  "version": "0.0.2",
+  "version": "0.9.4",
   "description": "Github action to invoke instrumented Android tests with emulator.wtf",
   "scripts": {
     "build": "rimraf dist && tsc"

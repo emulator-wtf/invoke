@@ -38,6 +38,11 @@ async function invoke() {
 
     const displayName = getInput('display-name');
 
+    const proxyHost = getInput('proxy-host');
+    const proxyPort = getInput('proxy-port');
+    const proxyUser = getInput('proxy-user');
+    const proxyPass = getInput('proxy-password');
+
     const args = ['--token', token];
 
     if (libraryTestApk) {
@@ -145,7 +150,23 @@ async function invoke() {
       args.push('--async');
     }
 
-    args.push('--integration', 'github-action 0.9.3')
+    if (proxyHost) {
+      args.push('--proxy-host', proxyHost);
+    }
+
+    if (proxyPort) {
+      args.push('--proxy-port', proxyPort);
+    }
+
+    if (proxyUser) {
+      args.push('--proxy-user', proxyUser);
+    }
+
+    if (proxyPass) {
+      args.push('--proxy-password', proxyPass);
+    }
+
+    args.push('--integration', 'github-action 0.9.4');
 
     await exec('ew-cli', args);
   } catch (e) {
