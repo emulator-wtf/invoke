@@ -40,7 +40,7 @@ var core_1 = require("@actions/core");
 var exec_1 = require("@actions/exec");
 function invoke() {
     return __awaiter(this, void 0, void 0, function () {
-        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, clearPackageData, withCoverage, testTargets, additionalApks, environmentVariables, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, fileCache, fileCacheTtl, testCache, async, displayName, args_1, e_1;
+        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, clearPackageData, withCoverage, testTargets, additionalApks, environmentVariables, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, fileCache, fileCacheTtl, testCache, async, displayName, proxyHost, proxyPort, proxyUser, proxyPass, args_1, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -71,6 +71,10 @@ function invoke() {
                     testCache = (0, core_1.getInput)('test-cache') ? (0, core_1.getBooleanInput)('test-cache') : true;
                     async = (0, core_1.getInput)('async') && (0, core_1.getBooleanInput)('async');
                     displayName = (0, core_1.getInput)('display-name');
+                    proxyHost = (0, core_1.getInput)('proxy-host');
+                    proxyPort = (0, core_1.getInput)('proxy-port');
+                    proxyUser = (0, core_1.getInput)('proxy-user');
+                    proxyPass = (0, core_1.getInput)('proxy-password');
                     args_1 = ['--token', token];
                     if (libraryTestApk) {
                         if (appApk || testApk) {
@@ -161,6 +165,19 @@ function invoke() {
                     if (async) {
                         args_1.push('--async');
                     }
+                    if (proxyHost) {
+                        args_1.push('--proxy-host', proxyHost);
+                    }
+                    if (proxyPort) {
+                        args_1.push('--proxy-port', proxyPort);
+                    }
+                    if (proxyUser) {
+                        args_1.push('--proxy-user', proxyUser);
+                    }
+                    if (proxyPass) {
+                        args_1.push('--proxy-password', proxyPass);
+                    }
+                    args_1.push('--integration', 'github-action 0.9.4');
                     return [4, (0, exec_1.exec)('ew-cli', args_1)];
                 case 1:
                     _a.sent();
