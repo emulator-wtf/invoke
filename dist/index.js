@@ -177,7 +177,7 @@ function invoke() {
                     if (proxyPass) {
                         args_1.push('--proxy-password', proxyPass);
                     }
-                    args_1.push('--integration', 'github-action 0.9.4');
+                    args_1.push('--ew-integration', 'github-action 0.9.5');
                     return [4, (0, exec_1.exec)('ew-cli', args_1)];
                 case 1:
                     _a.sent();

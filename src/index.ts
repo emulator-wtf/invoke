@@ -166,7 +166,7 @@ async function invoke() {
       args.push('--proxy-password', proxyPass);
     }
 
-    args.push('--integration', 'github-action 0.9.4');
+    args.push('--ew-integration', 'github-action 0.9.5');
 
     await exec('ew-cli', args);
   } catch (e) {
