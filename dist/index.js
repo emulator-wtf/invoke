@@ -40,7 +40,7 @@ var core_1 = require("@actions/core");
 var exec_1 = require("@actions/exec");
 function invoke() {
     return __awaiter(this, void 0, void 0, function () {
-        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, clearPackageData, withCoverage, testTargets, additionalApks, environmentVariables, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, fileCache, fileCacheTtl, testCache, async, displayName, proxyHost, proxyPort, proxyUser, proxyPass, args_1, e_1;
+        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, clearPackageData, withCoverage, testTargets, additionalApks, environmentVariables, shardTargetRuntime, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, flakyTestRepeatMode, fileCache, fileCacheTtl, testCache, async, displayName, proxyHost, proxyPort, proxyUser, proxyPass, args_1, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -60,12 +60,14 @@ function invoke() {
                     testTargets = (0, core_1.getMultilineInput)('test-targets').map(function (x) { return x.trim(); }).filter(function (x) { return x.length > 0; });
                     additionalApks = (0, core_1.getMultilineInput)('additional-apks').filter(function (x) { return x.length > 0; });
                     environmentVariables = (0, core_1.getMultilineInput)('environment-variables').filter(function (x) { return x.length > 0; });
+                    shardTargetRuntime = (0, core_1.getInput)("shard-target-runtime");
                     numUniformShards = (0, core_1.getInput)('num-uniform-shards');
                     numShards = (0, core_1.getInput)('num-shards');
                     numBalancedShards = (0, core_1.getInput)('num-balanced-shards');
                     dirsToPull = (0, core_1.getMultilineInput)('directories-to-pull').filter(function (x) { return x.length > 0; });
                     sideEffects = (0, core_1.getInput)('side-effects') && (0, core_1.getBooleanInput)('side-effects');
                     numFlakyTestAttempts = (0, core_1.getInput)('num-flaky-test-attempts');
+                    flakyTestRepeatMode = (0, core_1.getInput)('flaky-test-repeat-mode');
                     fileCache = (0, core_1.getInput)('file-cache') ? (0, core_1.getBooleanInput)('file-cache') : true;
                     fileCacheTtl = (0, core_1.getInput)('file-cache-ttl');
                     testCache = (0, core_1.getInput)('test-cache') ? (0, core_1.getBooleanInput)('test-cache') : true;
@@ -135,14 +137,17 @@ function invoke() {
                     if (environmentVariables.length > 0) {
                         args_1.push('--environment-variables', environmentVariables.join(','));
                     }
-                    if (numShards) {
+                    if (shardTargetRuntime) {
+                        args_1.push('--shard-target-runtime', shardTargetRuntime);
+                    }
+                    else if (numBalancedShards) {
+                        args_1.push('--num-balanced-shards', numBalancedShards);
+                    }
+                    else if (numShards) {
                         args_1.push('--num-shards', numShards);
                     }
                     else if (numUniformShards) {
                         args_1.push('--num-uniform-shards', numUniformShards);
-                    }
-                    else if (numBalancedShards) {
-                        args_1.push('--num-balanced-shards', numBalancedShards);
                     }
                     if (dirsToPull.length > 0) {
                         args_1.push('--directories-to-pull', dirsToPull.join(','));
@@ -152,6 +157,9 @@ function invoke() {
                     }
                     if (numFlakyTestAttempts) {
                         args_1.push('--num-flaky-test-attempts', numFlakyTestAttempts);
+                    }
+                    if (flakyTestRepeatMode) {
+                        args_1.push('--flaky-test-repeat-mode', flakyTestRepeatMode);
                     }
                     if (!fileCache) {
                         args_1.push('--no-file-cache');

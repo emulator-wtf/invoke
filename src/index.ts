@@ -20,7 +20,8 @@ async function invoke() {
 
     const additionalApks = getMultilineInput('additional-apks').filter(x => x.length > 0);
     const environmentVariables = getMultilineInput('environment-variables').filter(x => x.length > 0);
-    
+
+    const shardTargetRuntime = getInput("shard-target-runtime");
     const numUniformShards = getInput('num-uniform-shards');
     const numShards = getInput('num-shards');
     const numBalancedShards = getInput('num-balanced-shards');
@@ -29,6 +30,7 @@ async function invoke() {
 
     const sideEffects = getInput('side-effects') && getBooleanInput('side-effects');
     const numFlakyTestAttempts = getInput('num-flaky-test-attempts');
+    const flakyTestRepeatMode = getInput('flaky-test-repeat-mode');
 
     const fileCache = getInput('file-cache') ? getBooleanInput('file-cache') : true;
     const fileCacheTtl = getInput('file-cache-ttl');
@@ -114,12 +116,14 @@ async function invoke() {
       args.push('--environment-variables', environmentVariables.join(','));
     }
 
-    if (numShards) {
+    if (shardTargetRuntime) {
+      args.push('--shard-target-runtime', shardTargetRuntime);
+    } else if (numBalancedShards) {
+      args.push('--num-balanced-shards', numBalancedShards);
+    } else if (numShards) {
       args.push('--num-shards', numShards);
     } else if (numUniformShards) {
       args.push('--num-uniform-shards', numUniformShards);
-    } else if (numBalancedShards) {
-      args.push('--num-balanced-shards', numBalancedShards);
     }
 
     if (dirsToPull.length > 0) {
@@ -132,6 +136,10 @@ async function invoke() {
 
     if (numFlakyTestAttempts) {
       args.push('--num-flaky-test-attempts', numFlakyTestAttempts);
+    }
+
+    if (flakyTestRepeatMode) {
+      args.push('--flaky-test-repeat-mode', flakyTestRepeatMode);
     }
 
     if (!fileCache) {
