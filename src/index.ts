@@ -54,7 +54,7 @@ async function invoke() {
     }
 
     if (token !== '') {
-      args.push('--api-token', token);
+      args.push('--token', token);
     }
 
     if (libraryTestApk) {
