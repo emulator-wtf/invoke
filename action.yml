@@ -19,7 +19,7 @@ inputs:
     description: 'Additional apks to install, one per line'
     required: false
   file-cache-ttl:
-    description: "Max time to keep cached files in the backend followed by an unit (d,h, m or s), with the maximum value being 90d and minimum value being 5m (default: 1h)"
+    description: "Max time to keep cached files in the backend followed by a unit (d,h, m or s), with the maximum value being 90d and minimum value being 5m (default: 1h)"
     required: false
   file-cache:
     description: "Set to false to disable remote file cache - APK and test-data will always be uploaded, even if they were uploaded before"
@@ -44,7 +44,7 @@ inputs:
     description: "Whether to repeat the whole failed shard (all) or only the failed tests (failed_only) in case of flaky tests. Default: failed_only."
     required: false
   timeout:
-    description: 'Max time until this test run is cancelled, expressed by a number followed by an unit (h, m or s), with the maximum value being 3h and minimum value being 60s (default: 15m)'
+    description: 'Max time until this test run is cancelled, expressed by a number followed by a unit (h, m or s), with the maximum value being 3h and minimum value being 60s (default: 15m)'
     required: false
   test-targets:
     description: 'Test targets to run, one operator-target per line, e.g. class foo.bar.Foobar'
