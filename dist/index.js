@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -45,7 +45,7 @@ function invoke() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    token = (0, core_1.getInput)('api-token', { required: true });
+                    token = (0, core_1.getInput)('api-token');
                     appApk = (0, core_1.getInput)('app');
                     testApk = (0, core_1.getInput)('test');
                     libraryTestApk = (0, core_1.getInput)('library-test');
@@ -77,7 +77,15 @@ function invoke() {
                     proxyPort = (0, core_1.getInput)('proxy-port');
                     proxyUser = (0, core_1.getInput)('proxy-user');
                     proxyPass = (0, core_1.getInput)('proxy-password');
-                    args_1 = ['--token', token];
+                    args_1 = [];
+                    if (token === '' && process.env['EW_API_TOKEN'] === undefined) {
+                        (0, core_1.warning)('api-token or EW_API_TOKEN env var must be specified');
+                        (0, core_1.setFailed)('api-token or EW_API_TOKEN env var must be specified');
+                        return [2];
+                    }
+                    if (token !== '') {
+                        args_1.push('--api-token', token);
+                    }
                     if (libraryTestApk) {
                         if (appApk || testApk) {
                             (0, core_1.warning)('library-test should be used without app and test');
