@@ -3,7 +3,7 @@ description: Invoke the ew-cli command to run Android instrumentation tests
 inputs:
   api-token:
     description: 'Api token for emulator.wtf'
-    required: true
+    required: false
   app:
     description: 'Application apk file'
     required: false

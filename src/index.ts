@@ -3,7 +3,7 @@ import { exec } from '@actions/exec';
 
 async function invoke() {
   try {
-    const token = getInput('api-token', { required: true });
+    const token = getInput('api-token');
     const appApk = getInput('app');
     const testApk = getInput('test');
     const libraryTestApk = getInput('library-test');
@@ -45,7 +45,17 @@ async function invoke() {
     const proxyUser = getInput('proxy-user');
     const proxyPass = getInput('proxy-password');
 
-    const args = ['--token', token];
+    const args = [];
+
+    if (token === '' && process.env['EW_API_TOKEN'] === undefined) {
+      warning('api-token or EW_API_TOKEN env var must be specified');
+      setFailed('api-token or EW_API_TOKEN env var must be specified');
+      return;
+    }
+
+    if (token !== '') {
+      args.push('--api-token', token);
+    }
 
     if (libraryTestApk) {
       if (appApk || testApk) {
