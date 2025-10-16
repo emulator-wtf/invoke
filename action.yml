@@ -101,7 +101,7 @@ inputs:
     description: 'Hard-code specific hostname-ip combinations, one per line in the form of hostname=ip (e.g. example.com=10.0.0.1)'
     required: false
   egress-tunnel:
-    description: 'Set to true to enable tunneling outgoing internet traffic from the emulator to the action. This will redirect all network traffic as if you were running the emulator within the aciton.'
+    description: 'Set to true to enable tunneling outgoing internet traffic from the emulator to the action. This will redirect all network traffic as if you were running the emulator within the action.'
     required: false
   egress-localhost-fwd-ip:
     description: "When using the egress tunnel, make this action's localhost available to the emulator under the specified IP address (should NOT be a public IP, loopback IP or broadcast IP)"
