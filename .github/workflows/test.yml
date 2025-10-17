@@ -7,14 +7,15 @@ on:
 
 jobs:
   test:
-    env:
-      EW_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
     - uses: jdx/mise-action@v3
     - run: mise dist
     - uses: emulator-wtf/setup-ew-cli@v0
+    - uses: emulator-wtf/configure-credentials@v1
+      with:
+        oidc-configuration-id: {{ vars.EW_OIDC_ID }}
     - run: curl -o minimal.apk -sS https://maven.emulator.wtf/releases/wtf/emulator/minimal/0.0.2/minimal-0.0.2.apk 
     - run: curl -o minimal-test.apk -sS https://maven.emulator.wtf/releases/wtf/emulator/minimal/0.0.2/minimal-0.0.2-test.apk
     - uses: ./
