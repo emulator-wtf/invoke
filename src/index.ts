@@ -14,12 +14,14 @@ async function invoke() {
     const devices = getMultilineInput('devices').filter(x => x.length > 0);
     const timeout = getInput('timeout')
     const useOrchestrator = getInput('use-orchestrator') && getBooleanInput('use-orchestrator');
+    const testRunnerClass = getInput('test-runner-class');
     const clearPackageData = getInput('clear-package-data') && getBooleanInput('clear-package-data');
     const withCoverage = getInput('with-coverage') && getBooleanInput('with-coverage');
     const testTargets = getMultilineInput('test-targets').map(x => x.trim()).filter(x => x.length > 0);
 
     const additionalApks = getMultilineInput('additional-apks').filter(x => x.length > 0);
     const environmentVariables = getMultilineInput('environment-variables').filter(x => x.length > 0);
+    const secretEnvironmentVariables = getMultilineInput('secret-environment-variables').filter(x => x.length > 0);
 
     const shardTargetRuntime = getInput("shard-target-runtime");
     const numUniformShards = getInput('num-uniform-shards');
@@ -44,6 +46,11 @@ async function invoke() {
     const proxyPort = getInput('proxy-port');
     const proxyUser = getInput('proxy-user');
     const proxyPass = getInput('proxy-password');
+
+    const dnsServers = getMultilineInput('dns-server').filter(x => x.length > 0);
+    const dnsOverrides = getMultilineInput('dns-override').filter(x => x.length > 0);
+    const egressTunnel = getInput('egress-tunnel') && getBooleanInput('egress-tunnel');
+    const egressLocalhostFwdIp = getInput('egress-localhost-fwd-ip');
 
     const args = [];
 
@@ -110,6 +117,10 @@ async function invoke() {
       args.push('--use-orchestrator');
     }
 
+    if (testRunnerClass) {
+      args.push('--test-runner-class', testRunnerClass);
+    }
+
     if (clearPackageData) {
       args.push('--clear-package-data');
     }
@@ -124,6 +135,10 @@ async function invoke() {
 
     if (environmentVariables.length > 0) {
       args.push('--environment-variables', environmentVariables.join(','));
+    }
+
+    if (secretEnvironmentVariables.length > 0) {
+      args.push('--secret-environment-variables', secretEnvironmentVariables.join(','));
     }
 
     if (shardTargetRuntime) {
@@ -182,6 +197,26 @@ async function invoke() {
 
     if (proxyPass) {
       args.push('--proxy-password', proxyPass);
+    }
+
+    if (dnsServers.length > 0) {
+      dnsServers.forEach(server => {
+        args.push('--dns-server', server);
+      });
+    }
+
+    if (dnsOverrides.length > 0) {
+      dnsOverrides.forEach(override => {
+        args.push('--dns-override', override);
+      });
+    }
+
+    if (egressTunnel) {
+      args.push('--egress-tunnel');
+    }
+
+    if (egressLocalhostFwdIp) {
+      args.push('--egress-localhost-fwd-ip', egressLocalhostFwdIp);
     }
 
     args.push('--ew-integration', 'github-action 0.9.5');
