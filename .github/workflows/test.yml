@@ -7,6 +7,8 @@ on:
 
 jobs:
   test:
+    env:
+      EW_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
@@ -17,6 +19,5 @@ jobs:
     - run: curl -o minimal-test.apk -sS https://maven.emulator.wtf/releases/wtf/emulator/minimal/0.0.2/minimal-0.0.2-test.apk
     - uses: ./
       with: 
-        api-token: ${{ secrets.GITHUB_TOKEN }}
         app: minimal.apk
         test: minimal-test.apk

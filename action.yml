@@ -4,8 +4,7 @@ inputs:
   # authentication
   api-token:
     description: 'Api token for emulator.wtf'
-    required: true
-  # File inputs
+    required: false
   app:
     description: 'Application apk file'
     required: false
