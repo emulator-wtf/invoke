@@ -40,7 +40,7 @@ var core_1 = require("@actions/core");
 var exec_1 = require("@actions/exec");
 function invoke() {
     return __awaiter(this, void 0, void 0, function () {
-        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, clearPackageData, withCoverage, testTargets, additionalApks, environmentVariables, shardTargetRuntime, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, flakyTestRepeatMode, fileCache, fileCacheTtl, testCache, async, displayName, proxyHost, proxyPort, proxyUser, proxyPass, args_1, e_1;
+        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, testRunnerClass, clearPackageData, withCoverage, testTargets, additionalApks, environmentVariables, secretEnvironmentVariables, shardTargetRuntime, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, flakyTestRepeatMode, fileCache, fileCacheTtl, testCache, async, displayName, proxyHost, proxyPort, proxyUser, proxyPass, dnsServers, dnsOverrides, egressTunnel, egressLocalhostFwdIp, args_1, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -55,11 +55,13 @@ function invoke() {
                     devices = (0, core_1.getMultilineInput)('devices').filter(function (x) { return x.length > 0; });
                     timeout = (0, core_1.getInput)('timeout');
                     useOrchestrator = (0, core_1.getInput)('use-orchestrator') && (0, core_1.getBooleanInput)('use-orchestrator');
+                    testRunnerClass = (0, core_1.getInput)('test-runner-class');
                     clearPackageData = (0, core_1.getInput)('clear-package-data') && (0, core_1.getBooleanInput)('clear-package-data');
                     withCoverage = (0, core_1.getInput)('with-coverage') && (0, core_1.getBooleanInput)('with-coverage');
                     testTargets = (0, core_1.getMultilineInput)('test-targets').map(function (x) { return x.trim(); }).filter(function (x) { return x.length > 0; });
                     additionalApks = (0, core_1.getMultilineInput)('additional-apks').filter(function (x) { return x.length > 0; });
                     environmentVariables = (0, core_1.getMultilineInput)('environment-variables').filter(function (x) { return x.length > 0; });
+                    secretEnvironmentVariables = (0, core_1.getMultilineInput)('secret-environment-variables').filter(function (x) { return x.length > 0; });
                     shardTargetRuntime = (0, core_1.getInput)("shard-target-runtime");
                     numUniformShards = (0, core_1.getInput)('num-uniform-shards');
                     numShards = (0, core_1.getInput)('num-shards');
@@ -77,6 +79,10 @@ function invoke() {
                     proxyPort = (0, core_1.getInput)('proxy-port');
                     proxyUser = (0, core_1.getInput)('proxy-user');
                     proxyPass = (0, core_1.getInput)('proxy-password');
+                    dnsServers = (0, core_1.getMultilineInput)('dns-server').filter(function (x) { return x.length > 0; });
+                    dnsOverrides = (0, core_1.getMultilineInput)('dns-override').filter(function (x) { return x.length > 0; });
+                    egressTunnel = (0, core_1.getInput)('egress-tunnel') && (0, core_1.getBooleanInput)('egress-tunnel');
+                    egressLocalhostFwdIp = (0, core_1.getInput)('egress-localhost-fwd-ip');
                     args_1 = [];
                     if (token === '' && process.env['EW_API_TOKEN'] === undefined) {
                         (0, core_1.warning)('api-token or EW_API_TOKEN env var must be specified');
@@ -84,7 +90,7 @@ function invoke() {
                         return [2];
                     }
                     if (token !== '') {
-                        args_1.push('--api-token', token);
+                        args_1.push('--token', token);
                     }
                     if (libraryTestApk) {
                         if (appApk || testApk) {
@@ -133,6 +139,9 @@ function invoke() {
                     if (useOrchestrator) {
                         args_1.push('--use-orchestrator');
                     }
+                    if (testRunnerClass) {
+                        args_1.push('--test-runner-class', testRunnerClass);
+                    }
                     if (clearPackageData) {
                         args_1.push('--clear-package-data');
                     }
@@ -144,6 +153,9 @@ function invoke() {
                     }
                     if (environmentVariables.length > 0) {
                         args_1.push('--environment-variables', environmentVariables.join(','));
+                    }
+                    if (secretEnvironmentVariables.length > 0) {
+                        args_1.push('--secret-environment-variables', secretEnvironmentVariables.join(','));
                     }
                     if (shardTargetRuntime) {
                         args_1.push('--shard-target-runtime', shardTargetRuntime);
@@ -192,6 +204,22 @@ function invoke() {
                     }
                     if (proxyPass) {
                         args_1.push('--proxy-password', proxyPass);
+                    }
+                    if (dnsServers.length > 0) {
+                        dnsServers.forEach(function (server) {
+                            args_1.push('--dns-server', server);
+                        });
+                    }
+                    if (dnsOverrides.length > 0) {
+                        dnsOverrides.forEach(function (override) {
+                            args_1.push('--dns-override', override);
+                        });
+                    }
+                    if (egressTunnel) {
+                        args_1.push('--egress-tunnel');
+                    }
+                    if (egressLocalhostFwdIp) {
+                        args_1.push('--egress-localhost-fwd-ip', egressLocalhostFwdIp);
                     }
                     args_1.push('--ew-integration', 'github-action 0.9.5');
                     return [4, (0, exec_1.exec)('ew-cli', args_1)];
