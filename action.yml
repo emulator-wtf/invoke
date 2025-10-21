@@ -126,5 +126,5 @@ branding:
   color: orange
   icon: smartphone
 runs:
-  using: node20
+  using: node24
   main: dist/index.js
