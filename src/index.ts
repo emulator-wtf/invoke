@@ -9,7 +9,7 @@ async function invoke() {
     const libraryTestApk = getInput('library-test');
     const outputsDir = getInput('outputs-dir');
     const outputs = getInput('outputs');
-    const noRecordVideo = getInput('record-video') && !getBooleanInput('record-video');
+    const recordVideo = getInput('record-video');
 
     const devices = getMultilineInput('devices').filter(x => x.length > 0);
     const timeout = getInput('timeout')
@@ -91,8 +91,12 @@ async function invoke() {
       args.push('--outputs', outputs);
     }
 
-    if (noRecordVideo) {
-      args.push('--no-record-video');
+    if (recordVideo !== '') {
+      if (getBooleanInput(recordVideo)) {
+        args.push('--record-video');
+      } else {
+        args.push('--no-record-video');
+      }
     }
 
     if (devices) {
