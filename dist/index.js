@@ -51,7 +51,7 @@ function invoke() {
                     libraryTestApk = (0, core_1.getInput)('library-test');
                     outputsDir = (0, core_1.getInput)('outputs-dir');
                     outputs = (0, core_1.getInput)('outputs');
-                    recordVideo = (0, core_1.getInput)('record-video') && (0, core_1.getBooleanInput)('record-video');
+                    recordVideo = (0, core_1.getInput)('record-video');
                     devices = (0, core_1.getMultilineInput)('devices').filter(function (x) { return x.length > 0; });
                     timeout = (0, core_1.getInput)('timeout');
                     useOrchestrator = (0, core_1.getInput)('use-orchestrator') && (0, core_1.getBooleanInput)('use-orchestrator');
@@ -119,8 +119,13 @@ function invoke() {
                     if (outputs) {
                         args_1.push('--outputs', outputs);
                     }
-                    if (recordVideo) {
-                        args_1.push('--record-video');
+                    if (recordVideo !== '') {
+                        if ((0, core_1.getBooleanInput)(recordVideo)) {
+                            args_1.push('--record-video');
+                        }
+                        else {
+                            args_1.push('--no-record-video');
+                        }
                     }
                     if (devices) {
                         devices.forEach(function (device) {
@@ -131,7 +136,7 @@ function invoke() {
                         args_1.push('--timeout', timeout);
                     }
                     if (testTargets) {
-                        args_1.push('--test-targets', testTargets.join(' '));
+                        args_1.push('--test-targets', testTargets.join(';'));
                     }
                     if (displayName) {
                         args_1.push('--display-name', displayName);
