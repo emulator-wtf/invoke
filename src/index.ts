@@ -106,7 +106,7 @@ async function invoke() {
     }
 
     if (testTargets) {
-      args.push('--test-targets', testTargets.join(' '));
+      args.push('--test-targets', testTargets.join(';'));
     }
 
     if (displayName) {
