@@ -24,6 +24,7 @@ async function invoke() {
     const secretEnvironmentVariables = getMultilineInput('secret-environment-variables').filter(x => x.length > 0);
 
     const shardTargetRuntime = getInput("shard-target-runtime");
+    const testcaseDurationHint = getInput("testcase-duration-hint");
     const numUniformShards = getInput('num-uniform-shards');
     const numShards = getInput('num-shards');
     const numBalancedShards = getInput('num-balanced-shards');
@@ -149,6 +150,10 @@ async function invoke() {
       args.push('--num-shards', numShards);
     } else if (numUniformShards) {
       args.push('--num-uniform-shards', numUniformShards);
+    }
+
+    if (testcaseDurationHint) {
+      args.push('--testcase-duration-hint', testcaseDurationHint);
     }
 
     if (dirsToPull.length > 0) {
