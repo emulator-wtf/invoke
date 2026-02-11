@@ -40,7 +40,7 @@ var core_1 = require("@actions/core");
 var exec_1 = require("@actions/exec");
 function invoke() {
     return __awaiter(this, void 0, void 0, function () {
-        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, testRunnerClass, clearPackageData, withCoverage, testTargets, additionalApks, environmentVariables, secretEnvironmentVariables, shardTargetRuntime, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, flakyTestRepeatMode, fileCache, fileCacheTtl, testCache, async, displayName, proxyHost, proxyPort, proxyUser, proxyPass, dnsServers, dnsOverrides, egressTunnel, egressLocalhostFwdIp, args_1, e_1;
+        var token, appApk, testApk, libraryTestApk, outputsDir, outputs, recordVideo, devices, timeout, useOrchestrator, testRunnerClass, clearPackageData, withCoverage, testTargets, additionalApks, environmentVariables, secretEnvironmentVariables, shardTargetRuntime, testcaseDurationHint, numUniformShards, numShards, numBalancedShards, dirsToPull, sideEffects, numFlakyTestAttempts, flakyTestRepeatMode, fileCache, fileCacheTtl, testCache, async, displayName, proxyHost, proxyPort, proxyUser, proxyPass, dnsServers, dnsOverrides, egressTunnel, egressLocalhostFwdIp, args_1, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -63,6 +63,7 @@ function invoke() {
                     environmentVariables = (0, core_1.getMultilineInput)('environment-variables').filter(function (x) { return x.length > 0; });
                     secretEnvironmentVariables = (0, core_1.getMultilineInput)('secret-environment-variables').filter(function (x) { return x.length > 0; });
                     shardTargetRuntime = (0, core_1.getInput)("shard-target-runtime");
+                    testcaseDurationHint = (0, core_1.getInput)("testcase-duration-hint");
                     numUniformShards = (0, core_1.getInput)('num-uniform-shards');
                     numShards = (0, core_1.getInput)('num-shards');
                     numBalancedShards = (0, core_1.getInput)('num-balanced-shards');
@@ -173,6 +174,9 @@ function invoke() {
                     }
                     else if (numUniformShards) {
                         args_1.push('--num-uniform-shards', numUniformShards);
+                    }
+                    if (testcaseDurationHint) {
+                        args_1.push('--testcase-duration-hint', testcaseDurationHint);
                     }
                     if (dirsToPull.length > 0) {
                         args_1.push('--directories-to-pull', dirsToPull.join(','));
